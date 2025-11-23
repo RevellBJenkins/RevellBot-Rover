@@ -127,3 +127,31 @@ These functions will be created in Subsection 3.
 ## 📎 Status
 Hardware planning complete.  
 Wiring and power verification will precede writing the first motor test firmware.
+
+---
+
+## 🔧 Motor Calibration Results
+
+The yellow TT gear motors showed different minimum PWM thresholds.  
+This is expected due to gearbox friction and manufacturing variance.
+
+### Minimum PWM (start-of-motion threshold)
+| Motor | Min PWM |
+|-------|---------|
+| Left  | 100     |
+| Right | 110     |
+
+### Observations
+- The right motor required more initial torque to begin moving.
+- The rover drifted slightly to the **left** during forward motion before calibration.
+- Calibration offsets were added to equalize both motors.
+
+### Applied Calibration
+
+
+Forward and backward movement functions were updated to enforce minimum PWM values and automatically add compensation to the right motor.
+
+### Result After Calibration
+- Forward motion is significantly straighter.
+- Motor start behavior is smooth and predictable.
+- Rover is now ready for encoder integration in Milestone 2.
