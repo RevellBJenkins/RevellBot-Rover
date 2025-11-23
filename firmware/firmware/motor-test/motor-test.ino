@@ -13,6 +13,10 @@ const int ENB = 6;   // PWM
 const int IN3 = 9;   // direction A
 const int IN4 = 10;  // direction B
 
+// Motor calibration offsets
+const int BASE_LEFT = 100;
+const int BASE_RIGHT = 110;
+
 // Direction type
 enum Direction {
   DIR_STOP,
@@ -48,7 +52,10 @@ void setup() {
 }
 
 void loop() {
-  runTestPattern();
+  goForward(150);
+  delay(2000);
+  stopMoving();
+  delay(2000);
 }
 
 // Implementations
@@ -92,14 +99,22 @@ void setRightMotor(Direction dir, int speed) {
 // High level movement helpers
 
 void goForward(int speed) {
-  setLeftMotor(DIR_FORWARD, speed);
-  setRightMotor(DIR_FORWARD, speed);
+  int leftSpeed = max(speed, BASE_LEFT);
+  int rightSpeed = max(speed + (BASE_RIGHT - BASE_LEFT), BASE_RIGHT);
+
+  setLeftMotor(DIR_FORWARD, leftSpeed);
+  setRightMotor(DIR_FORWARD, rightSpeed);
 }
 
+
 void goBackward(int speed) {
-  setLeftMotor(DIR_BACKWARD, speed);
-  setRightMotor(DIR_BACKWARD, speed);
+  int leftSpeed = max(speed, BASE_LEFT);
+  int rightSpeed = max(speed + (BASE_RIGHT - BASE_LEFT), BASE_RIGHT);
+
+  setLeftMotor(DIR_BACKWARD, leftSpeed);
+  setRightMotor(DIR_BACKWARD, rightSpeed);
 }
+
 
 void turnLeft(int speed) {
   setLeftMotor(DIR_BACKWARD, speed);
@@ -142,3 +157,13 @@ void runTestPattern() {
   stopMoving();
   delay(2000);
 }
+
+
+  turnRight(180);
+  delay(1500);
+
+  stopMoving();
+  delay(2000);
+}
+Add motor calibration offsets and synchronized forward/backward movement
+
